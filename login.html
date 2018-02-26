@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录页面</title>
+    <!-- Bootstrap -->
+	<link rel="stylesheet" href="./dist/css/bootstrap.css">
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+<body>
+    <div class="login">
+        <div class="main">
+            <h3>
+                系统登录页面
+            </h3>
+            <div class="user">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-user" id="sizing-addon1"></span>
+                        </button>
+                    </span>
+                    <input type="text" class="form-control" id="username" class="user-name" placeholder="Username" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="pass">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <span class="glyphicon  glyphicon-lock" id="sizing-addon1"></span>
+                        </button>
+                    </span>
+                    <input type="password" class="form-control" id="password" class="pass-word" placeholder="Password" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="pull-left check">
+                <input id="remember1" name="remember" type="checkbox">
+                <span class="check-title">记住密码</span>
+            </div>
+            <div class="login-button">
+                <button type="button" class="btn btn-info loginButton">登录</button>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./dist/js/bootstrap.min.js"></script>
+    <script src="./js/login.js"></script>
+</body>
+</html>

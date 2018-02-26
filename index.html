@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<title>后台管理</title>
+	<!-- Bootstrap -->
+	<link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./css/index.css">
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+
+<body>
+	<div id="wrapper">
+		<div class="overlay"></div>
+
+		<!-- Sidebar -->
+		<nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+			<ul class="nav sidebar-nav">
+				<li class="sidebar-brand ">
+					<a href="#">
+						合同后台管理
+					</a>
+				</li>
+				<li class="selsct">
+					<a href="#">
+						<i class="fa fa-fw fa-home"></i> 合同与线索关联
+					</a>
+				</li>
+				<li class="selsct">
+					<a href="#">
+						<i class="fa fa-fw fa-folder"></i> CS合同同步新库
+					</a>
+				</li>
+				<li class="selsct">
+					<a href="#">
+						<i class="fa fa-fw fa-file-o"></i> 线索跨馆转移
+					</a>
+				</li>
+			</ul>
+		</nav>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+				<span class="hamb-top"></span>
+				<span class="hamb-middle"></span>
+				<span class="hamb-bottom"></span>
+			</button>
+		</div>
+		<div class="content">
+			<div class="menu">
+				<h5>合同与线索关联页面：</h5>
+				<!-- 合同 -->
+				<div class="contract table-responsive">
+					<div class="row">
+						<div class="col-lg-3 col-md-4 col-xs-4">
+						</div>
+						<div class="col-lg-2 col-md-2 col-xs-4 con-number">
+							<div>合同号:</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-xs-6">
+							<div class="input-group">
+								<input type="text" class="form-control contentInput" placeholder="请输入合同号">
+								<span class="input-group-btn">
+									<button class="btn btn-default contentCheck" type="button">搜索</button>
+								</span>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-xs-4">
+						</div>
+					</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="five"> </th>
+								<th class="five">序号</th>
+								<th class="five">分馆</th>
+								<th class="eight">姓名</th>
+								<th class="fifteen">手机号</th>
+								<th class="ten">学员名</th>
+								<th class="fifteen">新合同号</th>
+								<th class="fifteen">老合同号</th>
+								<th class="six">课时数</th>
+								<th class="five">价格</th>
+								<th class="fifteen">关联</th>
+							</tr>
+						</thead>
+					</table>
+					<div class="con-table">
+						<table class="table table-hover">
+							<tbody id="upContent" class="upContent"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- 线索 -->
+				<div class="leader">
+					<div class="row">
+						<div class="col-lg-3 col-md-2">
+						</div>
+						<div class="col-lg-1 col-md-2 con-number">
+							<div>线索:</div>
+						</div>
+						<div class="col-lg-2 col-md-2">
+							<input type="text" class="form-control mobileInput" placeholder="请输入姓名">
+						</div>
+						<div class="col-lg-2 col-md-2">
+							<input type="text" class="form-control nameInput" placeholder="请输入手机号">
+						</div>
+						<div class="col-lg-1 col-md-1">
+							<span class="input-group-btn">
+								<button class="btn btn-default search" type="button">搜索</button>
+							</span>
+						</div>
+					</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="five"></th>
+								<th class="five">序号</th>
+								<th class="fifteen">姓名</th>
+								<th class="thirty">手机号</th>
+								<th class="twenty">来源</th>
+								<th class="twenty">分馆</th>
+							</tr>
+						</thead>
+					</table>
+					<div class="source-table"> 
+						<table class="table table-hover">
+							<tbody class="upLead"></tbody>
+						</table>
+					</div>
+				</div>
+				<!-- footer -->
+				<div class="footer row">
+					<div class="col-lg-4 col-md-3">
+					</div>
+					<div class="col-lg-1 col-md-1">
+						<button type="button" class="btn btn-primary btn-lg refer">提交</button>
+					</div>
+					<div class="col-lg-1 col-md-1"></div>
+					<div class="col-lg-1 col-md-1">
+						<button type="button" class="btn btn-lg rest">重置</button>
+					</div>
+					<div class="col-lg-4 col-md-3">
+					</div>
+				</div>
+			</div>
+			<div class="menu menu_tab">
+				<h5>cs合同迁移到新库：</h5>
+				<div class="meanwhile">
+					<div class="row">
+						<div class="col-lg-3 col-md-4 col-xs-4">
+						</div>
+						<div class="col-lg-2 col-md-2 col-xs-4 con-number">
+							<div>合同号:</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-xs-6">
+							<div class="input-group">
+								<input type="text" class="form-control meanInput" placeholder="请输入合同号">
+								<span class="input-group-btn">
+									<button class="btn btn-default meanCheck" type="button">搜索</button>
+								</span>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-xs-4">
+						</div>
+					</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="five"></th>
+								<th class="ten">序号</th>
+								<th class="twentyFive">合同号</th>
+								<th class="fifteen">学员名</th>
+								<th class="ten">场馆</th>
+								<th class="ten">价格</th>
+								<th class="fifteen">合同类型</th>
+								<th class="fifteen">合同id</th>
+							</tr>
+						</thead>
+					</table>
+					<div class="meanwhile-newTable"> 
+						<table class="table table-hover">
+							<tbody class="meanwhile-tab"></tbody>
+						</table>
+					</div>
+					<button type="button" class="btn btn-info pull-right meanButton">同步到新库</button>
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="five">序号</th>
+								<th class="fifteen">新库合同号</th>
+								<th class="fifteen">老库合同号</th>
+								<th class="six">学员名</th>
+								<th class="six">姓名</th>
+								<th class="six">场馆</th>
+								<th class="ten">手机号</th>
+								<th class="five">总价</th>
+								<th class="six">课时总数</th>
+								<th class="five">id</th>
+							</tr>
+						</thead>
+					</table>
+					<div class="meanwhile-newTable"> 
+						<table class="table table-hover">
+							<tbody class="meanwhile-newTab"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="menu menu_tab">
+				<h5>线索跨馆转移页面：</h5>
+				<!-- 线索跨馆转移 -->
+				<div class="transfer">
+					<div class="row">
+						<div class="col-lg-3 col-md-2">
+						</div>
+						<div class="col-lg-1 col-md-2 con-number">
+							<div>线索:</div>
+						</div>
+						<div class="col-lg-2 col-md-2">
+							<input type="text" class="form-control transMobile" placeholder="请输入姓名">
+						</div>
+						<div class="col-lg-2 col-md-2">
+							<input type="text" class="form-control transName" placeholder="请输入手机号">
+						</div>
+						<div class="col-lg-1 col-md-1">
+							<span class="input-group-btn">
+								<button class="btn btn-default transSearch" type="button">搜索</button>
+							</span>
+						</div>
+					</div>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="five"></th>
+							<th class="five">序号</th>
+							<th class="fifteen">姓名</th>
+							<th class="fifteen">手机号</th>
+							<th class="fifteen">来源</th>
+							<th class="fifteen">分馆</th>
+							<th class="fifteen">转馆</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="transfer-table"> 
+					<table class="table table-hover">
+						<tbody class="transLead"></tbody>
+					</table>
+				</div>
+				<button type="button" class="btn btn-info pull-right transButton">确认</button>
+			</div>
+		</div>
+			
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="./dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="./js/sidbar.js"></script>
+		<!-- <script src="./js/util.js"></script> -->
+		<script src="./js/index.js"></script>
+</body>
+
+</html>
