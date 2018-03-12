@@ -296,6 +296,9 @@ $(function() {
             alert(res.msg)
         }
     }
+
+
+
     /*-------------------------------*/
     /*           同步新合同           */ 
     /*-------------------------------*/
@@ -551,18 +554,19 @@ $(function() {
     }
     // 合同跨馆转移模板
     function shiftHtml(res){
-        console.log(res)
+        var shiftCC = res.cc || ' ';
+        var shiftName = res.name || ' ';
         var shiftTemple = (
             '<tr>' +
                 '<td class="five">' +  res.store_name + '</td>' +
-                '<td class="ten">' +  res.name + '</td>' +
+                '<td class="ten">' + shiftName  + '</td>' +
                 '<td class="fifteen">' + res.mobile + '</td>' +
                 '<td class="ten">' + res.student_name + '</td>' +
                 '<td class="fifteen">' + res.code + '</td>' +
                 '<td class="five">' + res.lesson_cnt + '</td>' +
                 '<td class="ten">' + res.total_tuition + '</td>' +
                 '<td class="ten">' + res.create_time + '</td>' +
-                '<td class="ten">' + res.cc + '</td>' +
+                '<td class="ten">' + shiftCC + '</td>' +
             '<tr/>'
         )
         return shiftTemple;
