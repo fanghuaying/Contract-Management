@@ -285,10 +285,13 @@ $(function() {
             error: conErrFunction
         });
     }
-    // 渲染合同转馆表格
+    // 成功的回掉函数
     function shiftSeccFunction(res){
         if(res.code == 0){
-            console.log(res)
+            var data = res.data;
+            var shiftAllHtml = ' ';
+            shiftAllHtml += shiftHtml(data[0])
+            $('.shiftLead').html(shiftAllHtml)
         } if(res.code == 1) {
             alert(res.msg)
         }
@@ -545,6 +548,24 @@ $(function() {
             '<tr/>'
         )
         return newMeanTemple;
+    }
+    // 合同跨馆转移模板
+    function shiftHtml(res){
+        console.log(res)
+        var shiftTemple = (
+            '<tr>' +
+                '<td class="five">' +  res.store_name + '</td>' +
+                '<td class="ten">' +  res.name + '</td>' +
+                '<td class="fifteen">' + res.mobile + '</td>' +
+                '<td class="ten">' + res.student_name + '</td>' +
+                '<td class="fifteen">' + res.code + '</td>' +
+                '<td class="five">' + res.lesson_cnt + '</td>' +
+                '<td class="ten">' + res.total_tuition + '</td>' +
+                '<td class="ten">' + res.create_time + '</td>' +
+                '<td class="ten">' + res.cc + '</td>' +
+            '<tr/>'
+        )
+        return shiftTemple;
     }
     
 
