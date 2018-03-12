@@ -165,7 +165,7 @@ $(function() {
 
 
     /*-------------------------------*/
-    /*            跨馆转移            */
+    /*          线索跨馆转移          */
     /*-------------------------------*/
     // 跨馆线索搜索
     $('.transSearch').click(function() {
@@ -259,6 +259,40 @@ $(function() {
 
 
 
+
+    /*-------------------------------*/
+    /*          合同跨馆转移          */
+    /*-------------------------------*/
+    // 跨馆线索搜索
+    $('.shiftSearch').click(function(){
+        if (($('.shiftInput').val() == '')) {
+            alert('请输入合同号')
+        } else {
+            shift();
+        }
+    })
+    // 调合同接口
+    function shift() {
+        var conInputTest = $('.contentInput').val()
+        $.ajax({
+            type: "GET",
+            url: base_url + "/contract_info",
+            dataType: "json",
+            data: {
+                'contract_no': conInputTest
+            },
+            success: shiftSeccFunction,
+            error: conErrFunction
+        });
+    }
+    // 渲染合同转馆表格
+    function shiftSeccFunction(res){
+        if(res.code == 0){
+            console.log(res)
+        } if(res.code == 1) {
+            alert(res.msg)
+        }
+    }
     /*-------------------------------*/
     /*           同步新合同           */ 
     /*-------------------------------*/

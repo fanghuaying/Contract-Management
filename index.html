@@ -42,7 +42,7 @@
 				</li>
 				<li class="selsct">
 					<a href="#">
-						<i class="fa fa-fw fa-edit"></i> 修改课时
+						<i class="fa fa-fw fa-edit"></i> 合同跨馆转移
 					</a>
 				</li>
 			</ul>
@@ -262,8 +262,9 @@
 				<button type="button" class="btn btn-info pull-right transButton">确认</button>
 			</div>
 			<div class="menu menu_tab">
-				<h5>修改课时页面</h5>
-				<div class="modification">
+				<h5>合同跨馆转移页面：</h5>
+				<!-- 线索跨馆转移 -->
+				<div class="shift">
 					<div class="row">
 						<div class="col-lg-3 col-md-4 col-xs-4">
 						</div>
@@ -272,9 +273,9 @@
 						</div>
 						<div class="col-lg-3 col-md-4 col-xs-6">
 							<div class="input-group">
-								<input type="text" class="form-control contentInput" placeholder="请输入合同号">
+								<input type="text" class="form-control shiftInput" placeholder="请输入合同号">
 								<span class="input-group-btn">
-									<button class="btn btn-default contentCheck" type="button">搜索</button>
+									<button class="btn btn-default shiftSearch" type="button">搜索</button>
 								</span>
 							</div>
 						</div>
@@ -282,7 +283,27 @@
 						</div>
 					</div>
 				</div>
-			</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="five">分馆</th>
+							<th class="ten">姓名</th>
+							<th class="fifteen">手机号</th>
+							<th class="ten">学员名</th>
+							<th class="fifteen">新合同号</th>
+							<th class="five">课时数</th>
+							<th class="ten">价格</th>
+							<th class="ten">签订时间</th>
+							<th class="ten">所属CC</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="shift-table"> 
+					<table class="table table-hover">
+						<tbody class="transLead"></tbody>
+					</table>
+				</div>
+				<button type="button" class="btn btn-info pull-right transButton">确认</button>
 		</div>
 			
 
