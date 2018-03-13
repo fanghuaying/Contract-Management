@@ -102,6 +102,13 @@ input[type=radio]{
     background-color: #5bc0de !important;
     border: 2px solid #46b8da !important;
 }
+/* 合同转馆 */
+.shiftStoreName{
+	display: inline-block;
+}
+.shiftCcName{
+	display: inline-block;
+}
 /* 表格宽度 */
 .two{
 	width: 2%;

@@ -2,6 +2,7 @@ $(function() {
     var base_url = "http://cssup.test.shbaoyuantech.com/api";
     var sourceLi = [];
     var transferStore = {};
+    var shiftGetCc = {};
 
   
 
@@ -289,6 +290,9 @@ $(function() {
     function shiftSeccFunction(res){
         if(res.code == 0){
             var data = res.data;
+            shiftStoreId = res.data[0].store_id;
+            var shiftCcId = res.data[0].cc_id;
+            getCc(shiftCcId);
             var shiftAllHtml = ' ';
             shiftAllHtml += shiftHtml(data[0])
             $('.shiftLead').html(shiftAllHtml)
@@ -556,26 +560,82 @@ $(function() {
     function shiftHtml(res){
         var shiftCC = res.cc || ' ';
         var shiftName = res.name || ' ';
+        var shiftStoreName = res.store_name || ' ';
+        var shiftStoreHtml = '';
+        for (var i in transferStore) {
+            shiftStoreHtml += '<li value='+transferStore[i].store_id+'><a href="#">'+transferStore[i].store_name +'</a></li>'
+        }
         var shiftTemple = (
             '<tr>' +
                 '<td class="five">' +  res.store_name + '</td>' +
-                '<td class="ten">' + shiftName  + '</td>' +
-                '<td class="fifteen">' + res.mobile + '</td>' +
+                '<td class="five">' + shiftName  + '</td>' +
+                '<td class="ten">' + res.mobile + '</td>' +
                 '<td class="ten">' + res.student_name + '</td>' +
-                '<td class="fifteen">' + res.code + '</td>' +
+                '<td class="fifteen">' + res.contract_no + '</td>' +
                 '<td class="five">' + res.lesson_cnt + '</td>' +
                 '<td class="ten">' + res.total_tuition + '</td>' +
                 '<td class="ten">' + res.create_time + '</td>' +
-                '<td class="ten">' + shiftCC + '</td>' +
+                '<td class="ten">' + 
+                    '<div class="dropdown shiftStoreText">' +
+                        '<button '+ 
+                            'class="btn btn-default dropdown-toggle source-button" '+
+                            'type="button" id="dropdownMenu1" '+
+                            'data-toggle="dropdown" '+
+                            'aria-haspopup="true" '+
+                            'aria-expanded="true">' +
+                            '<div class="shiftStoreName">'+
+                            shiftStoreName+
+                            '</div>'+'<span class="caret"></span>'+
+                        '</button>' +
+                        '<ul class="but-scoll sour-li dropdown-menu" aria-labelledby="dropdownMenu1">' +
+                            '<li class=sel><a href="#">'+ shiftStoreName +'</a></li>' + shiftStoreHtml +
+                        '</ul>' +
+                    '</div>' +  
+                '</td>' +
+                '<td class="ten">' + 
+                    '<div class="dropdown shiftCcText">' +
+                    '</div>' +  
+                '</td>' +
             '<tr/>'
         )
         return shiftTemple;
+    }
+    // 调取CC接口时的模板
+    function ccHtml(res,cc_id) {
+        var ccNameList = res.data;
+        if (cc_id){
+            var ccName = ccNameList.filter(function(v,k){
+                return v.cc_id == cc_id  
+            })
+            console.log(ccNameList,cc_id)
+        }
+        var shiftCC = ccName[0] ? ccName[0].cc_name : '请选择';
+        var shiftCcHtml = '';
+        for (var k in ccNameList) {
+            shiftCcHtml += '<li value='+ccNameList[k].cc_id+'><a href="#">'+ccNameList[k].cc_name +'</a></li>'
+        }
+        var ccTemple = (
+            '<button '+ 
+                'class="btn btn-default dropdown-toggle source-button" '+
+                'type="button" id="dropdownMenu1" '+
+                'data-toggle="dropdown" '+
+                'aria-haspopup="true" '+
+                'aria-expanded="true">' +
+                '<div class="shiftCcName">'+
+                shiftCC+
+                '</div>'+'<span class="caret"></span>'+
+            '</button>' +
+            '<ul class="but-scoll sour-li dropdown-menu" aria-labelledby="dropdownMenu1">' +
+                '<li class=sel><a href="#">'+'请选择'+'</a></li>' + shiftCcHtml +
+            '</ul>' 
+        )
+        return ccTemple;
     }
     
 
 
     /*-------------------------------*/
-    /*              来源             */ 
+    /*           线索来源            */ 
     /*-------------------------------*/  
 
     // 点击来源列表
@@ -623,22 +683,88 @@ $(function() {
     }
     // 场馆成功的回调接口
     function transferFunction(res){
-        if (code = '0') {
+        if (code == '0') {
             transferStore = res.data
-        }else if (res.code == '1') {
-            var msg = res.msg
-            alert(msg)
+        } else if (res.code == '1') {
+            alert(res.msg)
         }
     }
-    // 点击li,button同步显示
+    // 线索页面  点击li,button同步显示
     $(document).on('click','.transLead',function(e){
         var $target = $(e.target);
-        var isStore = $target.is('li a')
+        var isStore = $target.is('li a');
         if (isStore) {
             $target.parents('.storeText').find('.storeName').text($target.text())
         }
     })
     
+    // 合同转馆 点击li,button同步显示
+    $(document).on('click','.shiftLead',function(e){
+        var $target = $(e.target);
+        var isStore = $target.is('li a');
+        if (isStore) {
+            $target.parents('.shiftStoreText').find('.shiftStoreName').text($target.text())
+        }
+    })
+
+    // 合同转馆 选择CC列表
+    $(document).on('click','.shiftLead',function(e){
+        var $target = $(e.target);
+        var isCc = $target.is('li a');
+        if (isCc) {
+            $target.parents('.shiftCcText').find('.shiftCcName').text($target.text())
+        }
+    })
+
+    /*-------------------------------*/
+    /*              获取CC           */ 
+    /*-------------------------------*/
+
+    // 转馆
+    var shiftStoreId = '';
+    $(document).on('click','.shift-table .shiftStoreText ul li',function(){
+        shiftStoreId = $(this).val();
+        console.log(shiftStoreId,1111)
+        getCc();
+    })
+    // 获取CC列表
+    function getCc (cc_id) {
+        $.ajax({
+            type: 'GET',
+            url: base_url + '/cc',
+            dataType:'json',
+            data:{
+                store_id: shiftStoreId,
+            },
+            success:function(res){
+                shiftCcSeccFunction(res,cc_id)
+            },
+            error:conErrFunction
+        })
+    }
+    // 获取cc成功后的回掉函数
+    function shiftCcSeccFunction (res,cc_id) {
+        if ( res.code == 0) {
+            var ccList = ccHtml(res,cc_id);
+            shiftGetCc = res.data.cc_name
+            $('.shiftCcText').append(ccList)
+        } else if (res.code == 1) {
+            alert(res.msg)
+        }
+    }
+
+
+    /*-------------------------------*/
+    /*              转馆             */ 
+    /*-------------------------------*/
+    // 确认转馆
+    $('.shiftButton').click(function(){
+        shiftSbmit();
+    })
+    function shiftSbmit(res){
+        console.log(res)
+    }
+
 
     // 点击重置时取消选中状态
     $('.rest').click(function() {
@@ -654,5 +780,5 @@ $(function() {
 
     // 进入页面获取线索和场馆信息
     source();
-    getStore()
+    getStore();
 })
