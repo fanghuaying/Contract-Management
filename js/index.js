@@ -1,5 +1,8 @@
 $(function() {
-    var base_url = "http://cssup.test.shbaoyuantech.com/api";
+    // 测试环境
+    // var base_url = "http://cssup.test.shbaoyuantech.com/api";
+    // 正式环境
+    var base_url = "https://cssup.shbaoyuantech.com/api";
     var sourceLi = [];
     var transferStore = {};
     var shiftGetCc = {};
@@ -26,6 +29,7 @@ $(function() {
             dataType: "json",
             data: {
                 'contract_no': conInputTest
+                // 'contract_no': 'SH08130712283'
             },
             success: conSeccFunction,
             error: conErrFunction
@@ -264,34 +268,37 @@ $(function() {
     /*-------------------------------*/
     /*          合同跨馆转移          */
     /*-------------------------------*/
-    // 跨馆线索搜索
+    // 合同他跨馆线索搜索
     $('.shiftSearch').click(function(){
         if (($('.shiftInput').val() == '')) {
-            alert('请输入合同号')
+            alert('请输入合同号!')
         } else {
             shift();
         }
     })
     // 调合同接口
     function shift() {
-        var conInputTest = $('.contentInput').val()
+        var shiftInputTest = $('.shiftInput').val()
         $.ajax({
             type: "GET",
             url: base_url + "/contract_info",
             dataType: "json",
             data: {
-                'contract_no': conInputTest
+                'contract_no': shiftInputTest
+                // 'contract_no': 'SH08130712283'
             },
             success: shiftSeccFunction,
             error: conErrFunction
         });
     }
     // 成功的回掉函数
+    var shiftContractId = '';
     function shiftSeccFunction(res){
         if(res.code == 0){
             var data = res.data;
             shiftStoreId = res.data[0].store_id;
             var shiftCcId = res.data[0].cc_id;
+            shiftContractId = res.data[0].contract_id;
             getCc(shiftCcId);
             var shiftAllHtml = ' ';
             shiftAllHtml += shiftHtml(data[0])
@@ -567,11 +574,11 @@ $(function() {
         }
         var shiftTemple = (
             '<tr>' +
-                '<td class="five">' +  res.store_name + '</td>' +
+                '<td class="ten">' +  res.store_name + '</td>' +
                 '<td class="five">' + shiftName  + '</td>' +
                 '<td class="ten">' + res.mobile + '</td>' +
                 '<td class="ten">' + res.student_name + '</td>' +
-                '<td class="fifteen">' + res.contract_no + '</td>' +
+                '<td class="ten">' + res.contract_no + '</td>' +
                 '<td class="five">' + res.lesson_cnt + '</td>' +
                 '<td class="ten">' + res.total_tuition + '</td>' +
                 '<td class="ten">' + res.create_time + '</td>' +
@@ -594,6 +601,8 @@ $(function() {
                 '</td>' +
                 '<td class="ten">' + 
                     '<div class="dropdown shiftCcText">' +
+                        '<div class="dropdown shiftCcMenu">' +
+                        '</div>' +  
                     '</div>' +  
                 '</td>' +
             '<tr/>'
@@ -603,16 +612,16 @@ $(function() {
     // 调取CC接口时的模板
     function ccHtml(res,cc_id) {
         var ccNameList = res.data;
+        var ccName = [];
         if (cc_id){
-            var ccName = ccNameList.filter(function(v,k){
+            ccName = ccNameList.filter(function(v,k){
                 return v.cc_id == cc_id  
             })
-            console.log(ccNameList,cc_id)
         }
         var shiftCC = ccName[0] ? ccName[0].cc_name : '请选择';
         var shiftCcHtml = '';
         for (var k in ccNameList) {
-            shiftCcHtml += '<li value='+ccNameList[k].cc_id+'><a href="#">'+ccNameList[k].cc_name +'</a></li>'
+            shiftCcHtml += '<li value='+ccNameList[k].cc_id+' staff_id='+ ccNameList[k].staff_id +'><a href="#">'+ccNameList[k].cc_name +'</a></li>'
         }
         var ccTemple = (
             '<button '+ 
@@ -724,7 +733,6 @@ $(function() {
     var shiftStoreId = '';
     $(document).on('click','.shift-table .shiftStoreText ul li',function(){
         shiftStoreId = $(this).val();
-        console.log(shiftStoreId,1111)
         getCc();
     })
     // 获取CC列表
@@ -746,8 +754,8 @@ $(function() {
     function shiftCcSeccFunction (res,cc_id) {
         if ( res.code == 0) {
             var ccList = ccHtml(res,cc_id);
-            shiftGetCc = res.data.cc_name
-            $('.shiftCcText').append(ccList)
+            shiftGetCc = res.data.cc_name;
+            $('.shiftCcMenu').html(ccList)
         } else if (res.code == 1) {
             alert(res.msg)
         }
@@ -759,10 +767,44 @@ $(function() {
     /*-------------------------------*/
     // 确认转馆
     $('.shiftButton').click(function(){
-        shiftSbmit();
+        // console.log($('.shift-table .shiftCcText .shiftCcName').html())
+        if($('.shift-table .shiftCcText .shiftCcName').html() == '请选择'){
+            alert("请先选择CC")
+        } else {
+            shiftSbmit();
+        }
     })
-    function shiftSbmit(res){
-        console.log(res)
+    // 拿值
+    var ccId = '';
+    var staffId = '';
+    $(document).on('click','.shift-table .shiftCcText ul li',function(){
+        ccId = $(this).val();
+        staffId = parseInt($(this).attr('staff_id'))
+    })
+    // 确认转馆提交接口
+    function shiftSbmit(){
+        $.ajax({
+            type: 'POST',
+            url: base_url + '/contract_cc',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                store_id: shiftStoreId,
+                cc_id: ccId,
+                staff_id: staffId,
+                contract_id:shiftContractId
+            }),
+            success:shiftSubmitFunction,
+            error:conErrFunction
+        })
+    }
+    // 转馆成功的回掉函数
+    function shiftSubmitFunction(res) {
+        if(res.code == 0){
+            alert('您已转馆成功！');
+        }else if(res.code == 1){
+            alert(res.msg)
+        }
     }
 
 

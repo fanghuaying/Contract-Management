@@ -3,7 +3,6 @@ $(function() {
     // 点击登录
     
     $('.loginButton').click(function() {
-        console.log('我正在点击')
         login();
     })
     // 掉登录接口
@@ -28,7 +27,6 @@ $(function() {
     // 登录成功的回调函数
     function loginSuccFuction(res) {
         if (res.code == '0') {
-            console.log(res)
             setLogin();
             window.location.href = 'index.html'
         } else {
