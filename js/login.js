@@ -1,6 +1,6 @@
 $(function() {
     // 测试环境
-    // var base_url = "https://cssup.test.shbaoyuantech.com/api";
+    // var base_url = "http://cssup.test.shbaoyuantech.com/api";
     // 正式环境
     var base_url = "https://cssup.shbaoyuantech.com/api";
     // 点击登录

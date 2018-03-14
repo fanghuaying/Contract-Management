@@ -541,12 +541,13 @@ $(function() {
             '<tr>' +
                 '<td class="five">' + '<input class=oldMeanInput type=radio name=oldMeanRadio value='+ res.id +' />' + '</td>' +
                 '<td class="tr ten">' + ((index >> 0) + 1) + '</td>' +
-                '<td class="twentyFive">' + res.contract_no + '</td>' +
+                '<td class="fifteen">' + res.contract_no + '</td>' +
+                '<td  class="ten">' + res.cc + '</td>' +
                 '<td  class="fifteen">' + oldName + '</td>' +   
                 '<td class="ten">' +res.contract_department + '</td>' +
                 '<td class="ten">' + res.contract_price + '</td>' +
                 '<td  class="fifteen">' + oldType + '</td>' +
-                '<td  class="fifteen">' + res.id + '</td>' +
+                '<td  class="ten">' + res.id + '</td>' +
             '<tr/>'
         )
         return oldMeanTemple;
@@ -557,8 +558,9 @@ $(function() {
             '<tr>' +
                 '<td class="five">' + '<input class=newMeanInput type=radio name=newMeanRadio />' + '</td>' +
                 '<td class="tr five">' +  "1" + '</td>' +
-                '<td class="fifteen">' +res.contract_no + '</td>' +
-                '<td class="fifteen">' + res.code + '</td>' +
+                '<td class="ten">' +res.contract_no + '</td>' +
+                '<td class="ten">' + res.code + '</td>' +
+                '<td class="ten">' + res.cc + '</td>' +
                 '<td class="eight">' + res.student_name + '</td>' +
                 '<td class="six">' + res.name + '</td>' +
                 '<td class="six">' + res.store_name + '</td>' +
