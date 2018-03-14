@@ -1,5 +1,8 @@
 $(function() {
-    var base_url = "http://cssup.test.shbaoyuantech.com/api";
+    // 测试环境
+    // var base_url = "https://cssup.test.shbaoyuantech.com/api";
+    // 正式环境
+    var base_url = "https://cssup.shbaoyuantech.com/api";
     // 点击登录
     
     $('.loginButton').click(function() {
@@ -30,8 +33,7 @@ $(function() {
             setLogin();
             window.location.href = 'index.html'
         } else {
-            var msg = res.msg;
-            alert(msg)
+            alert(res.msg)
         }
     }
     // 登录失败的回调函数
@@ -53,7 +55,7 @@ $(function() {
                 document.getElementById('remember1').checked = false;
             }
         } else {
-            $('#username').focus();
+            submit()
         }
     };
     // cookie的get和set方法
@@ -98,13 +100,12 @@ $(function() {
         var password = $('#password').val();
         var remember = document.getElementById('remember1').checked;
         $('#password').val(password);
-        SetCookie('userName', username, 24 * 7, '/');
+        SetCookie('userName', username, 24 * 7);
         if (remember) {
-            SetCookie(username, password, 24 * 7, '/');
+            SetCookie(username, password, 24 * 7);
         } else {
-            SetCookie(username, '', 0, '/');
+            SetCookie(username, '', 0);
         }
-        $('#loginButton').login();
     }
 
 })
