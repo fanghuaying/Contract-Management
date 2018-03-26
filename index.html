@@ -45,6 +45,11 @@
 						<i class="fa fa-fw fa-edit"></i> 合同跨馆转移
 					</a>
 				</li>
+				<li class="selsct">
+					<a href="#">
+						<i class="fa fa-fw fa-plus"></i> 合同跨馆转移
+					</a>
+				</li>
 			</ul>
 		</nav>
 		<!-- /#sidebar-wrapper -->
@@ -58,7 +63,7 @@
 			</button>
 		</div>
 		<div class="content">
-			<div class="menu">
+			<div class="menu menu_tab">
 				<h5>合同与线索关联页面：</h5>
 				<!-- 合同 -->
 				<div class="contract table-responsive">
@@ -307,6 +312,75 @@
 					</table>
 				</div>
 				<button type="button" class="btn btn-info pull-right shiftButton">确认转馆</button>
+			</div>
+			<div class="menu">
+				<h5>新增课程</h5>
+				<div class="addClass">
+					<ul>
+						<li>
+							<span>课程名:</span>
+							<input type="text" class="class-name" placeholder="请输入课程名">
+						</li>
+						<li>
+							<span>年级：</span>
+							<div class="class-grade">
+								<button class="btn btn-default dropdown-toggle" type="button" id="class-grade-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									请选择
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu test" aria-labelledby="dropdownMenu1">
+
+								</ul>
+							</div>
+						</li>
+						<li>
+							<span>课程类型：</span>
+							<div class="class-type">
+								<button class="btn btn-default dropdown-toggle" type="button" id="class-name-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+										常规课
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li value="0"><a href="#">常规课</a></li>
+									<li value="1"><a href="#">公益课</a></li>
+									<li value="2"><a href="#">寒暑假班</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<span>课时数:</span>
+							<input type="text" class="class-number" placeholder="请输入课时数">
+						</li>
+						<li>
+							<span>是否删除状态:</span>
+							<div class="class-delete">
+								<button class="btn btn-default dropdown-toggle" type="button" id="class-delete-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									否
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li value="1"><a href="#">是</a></li>
+									<li value="2"><a href="#">否</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<span>是否是老数据:</span>
+							<div class="class-old">
+								<button class="btn btn-default dropdown-toggle" type="button" id="class-old-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									是
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li value="1"><a href="#">是</a></li>
+									<li value="2"><a href="#">否</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				<button type="button" class="btn btn-primary btn-lg add-grade">提交</button>
+				</div>
+			</div>
 		</div>
 			
 

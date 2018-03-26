@@ -109,6 +109,17 @@ input[type=radio]{
 .shiftCcName{
 	display: inline-block;
 }
+/* 添加课程 */
+.addClass{
+	padding: 30px;
+}
+.addClass li{
+	padding: 10px 0;
+}
+.addClass .class-grade,.class-type,.class-delete,.class-old{
+	position: relative;
+	display: inline-block;
+}
 /* 表格宽度 */
 .two{
 	width: 2%;

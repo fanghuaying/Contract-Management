@@ -1,21 +1,21 @@
 $(function() {
     // 测试环境
-    // var base_url = "http://cssup.test.shbaoyuantech.com/api";
+    var base_url = "http://cssup.test.shbaoyuantech.com/api";
     // 正式环境
-    var base_url = "https://cssup.shbaoyuantech.com/api";
+    // var base_url = "https://cssup.shbaoyuantech.com/api";
     var sourceLi = [];
+    var grade = '';
     var transferStore = {};
     var shiftGetCc = {};
 
-    if(document.cookie == ''){
-        alert('请先登录')
-        window.location.href = 'login.html';
-    }else{
+    // if(document.cookie == ''){
+    //     alert('请先登录')
+    //     window.location.href = 'login.html';
+    // }else{
         // 进入页面获取线索和场馆信息
-        source();
-        getStore();
-    };
-
+        // source();
+        // getStore();
+    // };
     /*-------------------------------*/
     /*             合同              */
     /*-------------------------------*/
@@ -815,6 +815,100 @@ $(function() {
             alert(res.msg)
         }
     }
+
+     /*-------------------------------*/
+    /*             新增课程            */ 
+    /*-------------------------------*/
+    // 改变选择下拉框的类容
+    $('.class-type').on('click', function(e) {
+        var $target = $(e.target);
+        $target.is('li a') && $('#class-name-menu').text($target.text())
+    })
+    $('.class-delete').on('click', function(e) {
+        var $target = $(e.target);
+        $target.is('li a') && $('#class-delete-menu').text($target.text())
+    })
+    $('.class-old').on('click', function(e) {
+        var $target = $(e.target);
+        $target.is('li a') && $('#class-old-menu').text($target.text())
+    })
+    $('.class-grade').on('click', function(e) {
+        var $target = $(e.target);
+        $target.is('li a') && $('#class-grade-menu').text($target.text())
+    })
+    // 获取年纪的数据
+    getClass();
+    function getClass() {
+        $.ajax({
+            type: 'GET',
+            url: base_url + '/grade',
+            success: classFunction,
+            error: conErrFunction
+        })
+    }
+    function classFunction (res){
+        if(res.code == 0) {
+            grade = res.data;
+            var div1 = '<li><a href="#">';
+            var div2 = '</a></li>';
+            for(var i = 0; i < grade.length;i++){
+                $(".test").append('<li value='+ grade[i].id +'><a href="#">' + grade[i].name +'</a></li>');
+            }
+        } else {
+            alert(res.msg)
+        }
+    }
+    // 点击提交
+    $('.add-grade').on('click',function(){
+        addCourse()
+    });
+    function addCourse() {
+        var course_name = $('.class-name').val();
+        var lesson_number = parseInt($('.class-number').val());
+        var is_deleted = is_deleted;
+        var is_old = is_old;
+        var course_type = course_type;
+        if($('#class-delete-menu').text() == '否'){
+            is_deleted = 2;
+        } else {
+            is_deleted = 1;
+        };
+        if($('#class-old-menu').text() == '否'){
+            is_old = 2;
+        } else {
+            is_old = 1;
+        };
+        if($('#class-name-menu').text() == '常规课'){
+            course_type = 2;
+        } else if ($('#class-name-menu').text() == '公益课') {
+            course_type = 1;
+        } else {
+            course_type = 0;
+        };
+        console.log(course_name,lesson_number,is_deleted,is_old,course_type)
+        $.ajax({
+            type: 'POST',
+            url: base_url + '/add/course',
+            contentType:  "application/json",
+            dataType: 'json',
+            data:JSON.stringify({
+                course_name: course_name,
+                lesson_hour: lesson_number,
+                is_deleted:  is_deleted,
+                is_old: is_old,
+                course_type: course_type
+            }),
+            success: addCourseFunction,
+            error: conErrFunction
+        })
+    }
+    function addCourseFunction() {
+        console.log('成功')
+    }
+  
+
+    
+
 
 
     // 点击重置时取消选中状态
