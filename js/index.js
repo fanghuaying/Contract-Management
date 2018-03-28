@@ -12,7 +12,7 @@ $(function() {
         alert('请先登录')
         window.location.href = 'login.html';
     }else{
-        进入页面获取线索和场馆信息
+        // 进入页面获取线索和场馆信息
         source();
         getStore();
     };
