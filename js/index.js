@@ -16,7 +16,7 @@ $(function() {
         source();
         getStore();
     };
-    
+
     /*-------------------------------*/
     /*             合同              */
     /*-------------------------------*/
@@ -887,24 +887,36 @@ $(function() {
             course_type = 0;
         };
         console.log(course_name,lesson_number,is_deleted,is_old,course_type)
-        $.ajax({
-            type: 'POST',
-            url: base_url + '/add/course',
-            contentType:  "application/json",
-            dataType: 'json',
-            data:JSON.stringify({
-                course_name: course_name,
-                lesson_hour: lesson_number,
-                is_deleted:  is_deleted,
-                is_old: is_old,
-                course_type: course_type
-            }),
-            success: addCourseFunction,
-            error: conErrFunction
-        })
+        if (course_name == ''){
+            alert('请输入课程名')
+        } else if(lesson_number == ''){
+            alert('请输入课时数')
+        } else if(lesson_number % 2 == 0){
+            $.ajax({
+                type: 'POST',
+                url: base_url + '/add/course',
+                contentType:  "application/json",
+                dataType: 'json',
+                data:JSON.stringify({
+                    course_name: course_name,
+                    lesson_hour: lesson_number,
+                    is_deleted:  is_deleted,
+                    is_old: is_old,
+                    course_type: course_type
+                }),
+                success: addCourseFunction,
+                error: conErrFunction
+            })
+        } else {
+            alert('课时数请输入整数！')
+        }
     }
-    function addCourseFunction() {
-        console.log('成功')
+    function addCourseFunction(res) {
+        if (res.code == 0){
+            alert('您成功添加课程！')
+        } else {
+            alert(res.msg)
+        }
     }
   
 
