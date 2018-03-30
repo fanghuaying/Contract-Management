@@ -1,7 +1,6 @@
 html,body{
 	height: 100%;
-	overflow-x: hidden;
-	overflow-y: hidden;
+	overflow-y: auto;
 }
 li{
 	list-style: none;
@@ -14,6 +13,7 @@ a{
 }
 .content{
 	padding: 10px 50px;
+
 }
 .row {
     margin-top: 10px;
@@ -110,15 +110,23 @@ input[type=radio]{
 	display: inline-block;
 }
 /* 添加课程 */
-.addClass{
+.addClass,.artAddClass{
 	padding: 30px;
 }
-.addClass li{
+.addClass li,.artAddClass li{
 	padding: 10px 0;
 }
 .addClass .class-grade,.class-type,.class-delete,.class-old{
 	position: relative;
 	display: inline-block;
+}
+.artAddClass .art-class-grade,.art-class-type,.art-class-delete,.art-class-old{
+	position: relative;
+	display: inline-block;
+}
+.art-test,.test{
+	overflow-y: scroll;
+	height: 500px;
 }
 /* 表格宽度 */
 .two{

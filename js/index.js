@@ -7,6 +7,8 @@ $(function() {
     var grade = '';
     var transferStore = {};
     var shiftGetCc = {};
+    var subject_id = '';
+    var grade_id = ''; 
 
     if(document.cookie == ''){
         alert('请先登录')
@@ -18,7 +20,7 @@ $(function() {
     };
 
     /*-------------------------------*/
-    /*             合同              */
+    /*         合同（国文）           */
     /*-------------------------------*/
     // 合同搜索
     $('.contentCheck').click(function() {
@@ -68,9 +70,60 @@ $(function() {
 
 
 
+    /*-------------------------------*/
+    /*         合同（国艺）           */
+    /*-------------------------------*/
+    // 合同搜索
+    $('.artContentCheck').click(function() {
+        if ($('.artContentInput').val() == '') {
+            alert('请输入合同号')
+        } else {
+            artTest();
+        }
+    })
+    // 调合同接口
+    function artTest() {
+        var artConInputTest = $('.artContentInput').val()
+        $.ajax({
+            type: "GET",
+            url: base_url + "/guoyi/contract_info",
+            dataType: "json",
+            data: {
+                'contract_no': artConInputTest
+                // 'contract_no': 'SH08130712283'
+            },
+            success: artSeccFunction,
+            error: conErrFunction
+        });
+    }
+    // 渲染表格
+    function artSeccFunction(res) {
+        if (res.code == '0') {
+            var data = res.data;
+            var conHtml = '';
+            var leHtml = '';
+            var threeHtml = '';
+            for (var i in data) {
+                conHtml += contentHtml(i, data[i]);
+                var isDate = data[i].lead;
+                for (var o in isDate) {
+                    threeHtml += leadHtml(o, isDate[o])
+                }
+                leHtml += threeHtml + secHtml()
+                $('.artUpLead').html(leHtml)
+            }
+            $('.artUpContent').html(conHtml)
+        }else if(res.code == '1') {
+            var msg = res.msg;
+            alert(msg)
+        }
+    }
+
+
+
 
     /*-------------------------------*/
-    /*             线索              */
+    /*          线索（国文）          */
     /*-------------------------------*/
     // 线索搜索
     $('.search').click(function() {
@@ -114,11 +167,55 @@ $(function() {
     }
 
 
+    /*-------------------------------*/
+    /*          线索（国艺）          */
+    /*-------------------------------*/
+    // 线索搜索
+    $('.artSearch').click(function() {
+        if (($('.artMobileInput').val() == '') && ($('.artNameInput').val() == '')) {
+            alert('请输入手机号或姓名')
+        } else {
+            artLead();
+        }
+    })
+    // 调线索接口
+    function artLead() {
+        var artMobInput = $('.artMobileInput').val()
+        var artNameInput = $('.artNameInput').val()
+        console.log(artNameInput)
+        $.ajax({
+            type: "GET",
+            url: base_url + "/guoyi/lead",
+            dataType: "json",
+            data: {
+                'name': artNameInput,
+                'mobile': artMobInput
+            },
+            success: artLeadSeccFunction,
+            error: conErrFunction
+        });
+    }
+    // 渲染线索表格
+    function artLeadSeccFunction(res) {
+        if (res.code == '0') {
+            var leDe = res.data;
+            var leHtml = '';
+            var threeHtml = '';
+            for (var i in leDe) {
+                threeHtml += leadHtml(i, leDe[i])
+            }
+            leHtml += threeHtml + secHtml()
+            $('.artUpLead').html(leHtml)
+        }else if (res.code == '1') {
+            var msg = res.msg
+            alert(msg)
+        }
+    }
 
 
     
     /*-------------------------------*/
-    /*        合同和线索绑定          */
+    /*      合同和线索绑定（国文）      */
     /*-------------------------------*/
     //点击提交时进行合同与线索关联前验证
     $('.refer').click(function() {
@@ -134,10 +231,12 @@ $(function() {
         const leadValue = $('.leadInput:checked').val()
         var isNew = '';
         var isSource = '';
-        if($('#dropName').text() == '请选择'){
-            alert('请选择线索来源')
-        }else{
-            isSource = $('#dropName').html()
+        if($(".addCheck").is(':checked')) {
+            if($('#dropName').text() == '请选择'){
+                alert('请选择线索来源')
+            } else {
+                isSource = $('#dropName').html()
+            }
         }
 
         isNew = (!leadValue == ' ') ? false : true
@@ -174,6 +273,59 @@ $(function() {
        
     }
 
+
+     /*-------------------------------*/
+    /*      合同和线索绑定（国艺）      */
+    /*-------------------------------*/
+    //点击提交时进行合同与线索关联前验证
+    $('.artRefer').click(function() {
+        if (window.confirm('你确定要将此合同与线索关联吗？')) {
+            artRef();
+        } else {
+            return false;
+        }
+    })
+    // 确定提交
+    function artRef() {
+        const conValue = $('.conInput:checked').val()
+        const leadValue = $('.leadInput:checked').val()
+        var isNew = '';
+        var isSource = '';
+        if($(".addCheck").is(':checked')) {
+            if($('#dropName').text() == '请选择'){
+                alert('请选择线索来源')
+            }else{
+                isSource = $('#dropName').html()
+            }
+        }
+        isNew = (!leadValue == ' ') ? false : true
+        $.ajax({
+            type: "POST",
+            url: base_url + "/guoyi/contract/lead",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                "contract_id": conValue,
+                "lead": {
+                    "lead_id": leadValue,
+                    "is_new": isNew,
+                    "source" : isSource
+                }
+            }),
+            success: artRefSeccFunction,
+            error: conErrFunction
+        });
+    }
+    function artRefSeccFunction(res){
+        if (res.code == '0') {
+            alert('修改成功')
+            artTest();
+        } else if (res.code == '1') {
+            var msg = res.msg
+            alert(msg)
+        }
+       
+    }
 
 
 
@@ -471,7 +623,7 @@ $(function() {
         }
         var secHtml = (
             '<tr>' +
-                '<td><input type=radio name=leName /></td>' +
+                '<td><input type=radio class=addCheck name=leName /></td>' +
                 '<td></td>' +
                 '<td></td>' +
                 '<td class="secTel">创建新线索并关联</td>' +
@@ -662,6 +814,10 @@ $(function() {
         var $target = $(e.target);
         $target.is('li a') && $('#dropName').text($target.text())
     })
+    $('.artUpLead').on('click', function(e) {
+        var $target = $(e.target);
+        $target.is('li a') && $('#dropName').text($target.text())
+    })
     // 选择来源接口
     function source() {
         $.ajax({
@@ -817,8 +973,8 @@ $(function() {
         }
     }
 
-     /*-------------------------------*/
-    /*             新增课程            */ 
+    /*-------------------------------*/
+    /*        新增课程(国文)           */ 
     /*-------------------------------*/
     // 改变选择下拉框的类容
     $('.class-type').on('click', function(e) {
@@ -836,6 +992,9 @@ $(function() {
     $('.class-grade').on('click', function(e) {
         var $target = $(e.target);
         $target.is('li a') && $('#class-grade-menu').text($target.text())
+        if($target.is('li a')){
+            grade_id = $target.attr('value')
+        }
     })
     // 获取年纪的数据
     getClass();
@@ -852,8 +1011,8 @@ $(function() {
             grade = res.data;
             var div1 = '<li><a href="#">';
             var div2 = '</a></li>';
-            for(var i = 0; i < grade.length;i++){
-                $(".test").append('<li value='+ grade[i].id +'><a href="#">' + grade[i].name +'</a></li>');
+            for(var i = 0; i < grade.length ; i++){
+                $(".test").append('<li><a href="#" value='+ grade[i].id +'>' + grade[i].name +'</a></li>');
             }
         } else {
             alert(res.msg)
@@ -902,6 +1061,115 @@ $(function() {
                     lesson_hour: lesson_number,
                     is_deleted:  is_deleted,
                     is_old: is_old,
+                    course_type: course_type,
+                    grade_id:grade_id
+                }),
+                success: addCourseFunction,
+                error: conErrFunction
+            })
+        } else {
+            alert('课时数请输入整数！')
+        }
+    }
+    function addCourseFunction(res) {
+        if (res.code == 0){
+            alert('您成功添加课程！')
+        } else {
+            alert(res.msg)
+        }
+    }
+
+
+
+    /*-------------------------------*/
+    /*        新增课程(国艺)           */ 
+    /*-------------------------------*/
+    // 改变选择下拉框的类容
+    $('.art-class-type').on('click', function(e) {
+        var $target = $(e.target);
+        $target.is('li a') && $('#art-class-name-menu').text($target.text());
+    })
+    $('.art-class-delete').on('click', function(e) {
+        var $target = $(e.target);
+        $target.is('li a') && $('#art-class-delete-menu').text($target.text());
+    })
+    $('.art-class-old').on('click', function(e) {
+        var $target = $(e.target);
+        $target.is('li a') && $('#art-class-old-menu').text($target.text());
+    })
+    $('.art-class-grade').on('click', function(e) {
+        var $target = $(e.target);
+        $target.is('li a') && $('#art-class-grade-menu').text($target.text());
+        if($target.is('li a')){
+            subject_id = $target.attr("value");
+        }
+    })
+    // 获取科目的数据
+    artGetClass();
+    function artGetClass() {
+        $.ajax({
+            type: 'GET',
+            url: base_url + '/guoyi/subject',
+            success: artClassFunction,
+            error: conErrFunction
+        })
+    }
+    function artClassFunction (res){
+        if(res.code == 0) {
+            grade = res.data;
+            var div1 = '<li><a href="#">';
+            var div2 = '</a></li>';
+            for(var i = 0; i < grade.length ; i++){
+                $(".art-test").append('<li><a href="#" value=' + grade[i].id +'>' + grade[i].name +'</a></li>');
+            }
+        } else {
+            alert(res.msg)
+        }
+    }
+
+    $('.art-add-grade').on('click',function(){
+        artAddCourse()
+    });
+    function artAddCourse() {
+        console.log('点击')
+        var course_name = $('.art-class-name').val();
+        var lesson_number = parseInt($('.art-class-number').val());
+        var is_deleted = is_deleted;
+        var is_old = is_old;
+        var course_type = course_type;
+        if($('#art-class-delete-menu').text() == '否'){
+            is_deleted = 2;
+        } else {
+            is_deleted = 1;
+        };
+        if($('#art-class-old-menu').text() == '否'){
+            is_old = 2;
+        } else {
+            is_old = 1;
+        };
+        if($('#art-class-name-menu').text() == '常规课'){
+            course_type = 2;
+        } else if ($('#art-class-name-menu').text() == '公益课') {
+            course_type = 1;
+        } else {
+            course_type = 0;
+        };
+        if (course_name == ''){
+            alert('请输入课程名')
+        } else if(lesson_number == ''){
+            alert('请输入课时数')
+        } else if(lesson_number % 2 == 0){
+            $.ajax({
+                type: 'POST',
+                url: base_url + '/guoyi/add/course',
+                contentType:  "application/json",
+                dataType: 'json',
+                data:JSON.stringify({
+                    course_name: course_name,
+                    subject_id:subject_id,
+                    lesson_hour: lesson_number,
+                    is_deleted:  is_deleted,
+                    is_old: is_old,
                     course_type: course_type
                 }),
                 success: addCourseFunction,
@@ -918,7 +1186,6 @@ $(function() {
             alert(res.msg)
         }
     }
-  
 
     
 
