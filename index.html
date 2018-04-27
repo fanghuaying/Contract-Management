@@ -27,37 +27,42 @@
 				</li>
 				<li class="selsct">
 					<a href="#">
-						<i class="fa fa-fw fa-home"></i> 合同与线索关联（国文）
+						<i class="fa fa-fw fa-home"></i> （国文）合同与线索关联
 					</a>
 				</li>
 				<li class="selsct">
 					<a href="#">
-						<i class="fa fa-fw fa-home"></i> 合同与线索关联（国艺）
+						<i class="fa fa-fw fa-home"></i> （国艺）合同与线索关联
 					</a>
 				</li>
 				<li class="selsct">
 					<a href="#">
-						<i class="fa fa-fw fa-folder"></i> CS合同同步新库（国文）
+						<i class="fa fa-fw fa-folder"></i> （国文）CS合同同步新库
 					</a>
 				</li>
 				<li class="selsct">
 					<a href="#">
-						<i class="fa fa-fw fa-file-o"></i> 线索跨馆转移（国文）
+						<i class="fa fa-fw fa-folder"></i> （国艺）CS合同同步新库
 					</a>
 				</li>
 				<li class="selsct">
 					<a href="#">
-						<i class="fa fa-fw fa-edit"></i> 合同跨馆转移（国文）
+						<i class="fa fa-fw fa-file-o"></i> （国文）线索跨馆转移
 					</a>
 				</li>
 				<li class="selsct">
 					<a href="#">
-						<i class="fa fa-fw fa-plus"></i> 新增课时（国文）
+						<i class="fa fa-fw fa-edit"></i> （国文）合同跨馆转移
 					</a>
 				</li>
 				<li class="selsct">
 					<a href="#">
-						<i class="fa fa-fw fa-plus"></i> 新增课时（国艺）
+						<i class="fa fa-fw fa-plus"></i> （国文）新增课时
+					</a>
+				</li>
+				<li class="selsct">
+					<a href="#">
+						<i class="fa fa-fw fa-plus"></i> （国艺）新增课时
 					</a>
 				</li>
 			</ul>
@@ -171,7 +176,7 @@
 				</div>
 			</div>
 			<div class="menu menu_tab">
-				<h5>合同与线索关联页面（国艺）：</h5>
+				<h5>（国艺）合同与线索关联页面：</h5>
 				<!-- 合同 -->
 				<div class="contract table-responsive">
 					<div class="row">
@@ -268,7 +273,7 @@
 				</div>
 			</div>
 			<div class="menu menu_tab">
-				<h5>cs合同迁移到新库：</h5>
+				<h5>cs合同迁移到新库(国文)：</h5>
 				<div class="meanwhile">
 					<div class="row">
 						<div class="col-lg-3 col-md-4 col-xs-4">
@@ -333,6 +338,71 @@
 				</div>
 			</div>
 			<div class="menu menu_tab">
+				<h5>(国艺)cs合同迁移到新库：</h5>
+				<div class="actMeanwhile">
+					<div class="row">
+						<div class="col-lg-3 col-md-4 col-xs-4">
+						</div>
+						<div class="col-lg-2 col-md-2 col-xs-4 con-number">
+							<div>合同号:</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-xs-6">
+							<div class="input-group">
+								<input type="text" class="form-control actMeanInput" placeholder="请输入合同号">
+								<span class="input-group-btn">
+									<button class="btn btn-default actMeanCheck" type="button">搜索</button>
+								</span>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-xs-4">
+						</div>
+					</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="five"></th>
+								<th class="ten">序号</th>
+								<th class="fifteen">合同号</th>
+								<th class="ten">所属CC</th>
+								<th class="fifteen">学员名</th>
+								<th class="ten">场馆</th>
+								<th class="ten">价格</th>
+								<th class="fifteen">合同类型</th>
+								<th class="ten">合同id</th>
+							</tr>
+						</thead>
+					</table>
+					<div class="meanwhile-newTable"> 
+						<table class="table table-hover">
+							<tbody class="actMeanwhile-tab"></tbody>
+						</table>
+					</div>
+					<button type="button" class="btn btn-info pull-right actMeanButton">同步到新库</button>
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="five">序号</th>
+								<th class="ten">新库合同号</th>
+								<th class="ten">老库合同号</th>
+								<th class="five">所属CC</th>
+								<th class="six">学员名</th>
+								<th class="six">姓名</th>
+								<th class="six">场馆</th>
+								<th class="ten">手机号</th>
+								<th class="five">总价</th>
+								<th class="six">课时总数</th>
+								<th class="five">id</th>
+							</tr>
+						</thead>
+					</table>
+					<div class="meanwhile-newTable"> 
+						<table class="table table-hover">
+							<tbody class="actMeanwhile-newTab"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="menu menu_tab">
 				<h5>线索跨馆转移页面（国文）：</h5>
 				<!-- 线索跨馆转移 -->
 				<div class="transfer">
@@ -376,7 +446,7 @@
 				<button type="button" class="btn btn-info pull-right transButton">确认</button>
 			</div>
 			<div class="menu menu_tab">
-				<h5>合同跨馆转移页面（国艺）：</h5>
+				<h5>合同跨馆转移页面（国文）：</h5>
 				<!-- 线索跨馆转移 -->
 				<div class="shift">
 					<div class="row">
@@ -489,7 +559,7 @@
 				</div>
 			</div>
 			<div class="menu menu_tab">
-				<h5>新增课程（国艺）</h5>
+				<h5>（国艺）新增课程</h5>
 				<div class="artAddClass">
 					<ul>
 						<li>

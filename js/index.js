@@ -1,6 +1,7 @@
 $(function() {
     // 测试环境
     var base_url = "http://cssup.test.shbaoyuantech.com/api";
+    // var base_url = "http://192.168.1.105:9000/api";
     // 正式环境
     // var base_url = "https://cssup.shbaoyuantech.com/api";
     var sourceLi = [];
@@ -14,7 +15,7 @@ $(function() {
         alert('请先登录')
         window.location.href = 'login.html';
     }else{
-        // 进入页面获取线索和场馆信息
+        进入页面获取线索和场馆信息
         source();
         getStore();
     };
@@ -471,7 +472,7 @@ $(function() {
 
 
     /*-------------------------------*/
-    /*           同步新合同           */ 
+    /*        同步新合同(国文)        */ 
     /*-------------------------------*/
     // 老合同搜索
     $('.meanCheck').click(function(){
@@ -555,6 +556,94 @@ $(function() {
     }
 
 
+
+
+     /*-------------------------------*/
+    /*        同步新合同(国艺)        */ 
+    /*-------------------------------*/
+    // 老合同搜索
+    $('.actMeanCheck').click(function(){
+        if ($('.actMeanInput').val() == '') {
+            alert('请输入合同号')
+        } else {
+            actOldMean();
+        }
+    })
+    // 老合同搜索接口
+    function actOldMean(){
+        var actMeanInputTest = $('.actMeanInput').val()
+        console.log(actMeanInputTest)
+        $.ajax({
+            type: "GET",
+            url: base_url + "/guoyi/contract",
+            dataType: "json",
+            data: {
+                'contract_no': actMeanInputTest
+                // contract_no: 'SH08180427002'
+            },
+            success: actOldMeanSeccFunction,
+            error: conErrFunction
+        });
+    }
+    // 成功时渲染老合同表格
+    function actOldMeanSeccFunction(res){
+        if(res.code == 0){
+            // console.log(res.data)
+            var data = res.data;
+            var firstHtml = '';
+            for (var i in data){
+                firstHtml += oldMeHtml(i,data[i])
+            }
+            $('.actMeanwhile-tab').html(firstHtml)
+        }else if (res.code == '1') {
+            var msg = res.msg
+            alert(msg)
+        }
+    }
+    // 点击同步新合同
+    $('.actMeanButton').click(function(){
+        if ($('.actMeanInput').val() == '') {
+            alert('请先输入合同号')
+        } else {
+            if($('input:radio[name="oldMeanRadio"]:checked').val() == null) {
+                alert('请先选择准备同步到新库的合同号')
+            }else{
+                if (window.confirm('你确定要将此合同同步新库吗？')) {
+                    actNewMean();
+                } else {
+                    return false;
+                }
+            }
+        }
+    })
+    // 新合同接口
+    function actNewMean(){
+        const actOldConId = $('.oldMeanInput:checked').val()
+        $.ajax({
+            type: 'POST',
+            url: base_url + '/guoyi/contract/migration',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+                'contract_id': actOldConId
+            }),
+            success: actNewMeanSeccFunction,
+            errror: conErrFunction
+        })
+    }
+    // 新合同渲染表格
+    function actNewMeanSeccFunction(res){
+        if(res.code == 0){
+            // console.log(res.data)
+            var data = res.data;
+            var newHtml = '';
+            newHtml += newMeHtml(data)
+            $('.actMeanwhile-newTab').html(newHtml)
+        }else if (res.code == '1') {
+            var msg = res.msg
+            alert(msg)
+        }
+    }
 
 
 
@@ -707,14 +796,16 @@ $(function() {
     }
     // 新合同模板
     function newMeHtml(res){
+        var actNewCc = res.cc || ' ';
+        var actNewName = res.student_name  || ' ';
         var newMeanTemple = (
             '<tr>' +
-                '<td class="five">' + '<input class=newMeanInput type=radio name=newMeanRadio />' + '</td>' +
+                // '<td class="five">' + '<input class=newMeanInput type=radio name=newMeanRadio />' + '</td>' +
                 '<td class="tr five">' +  "1" + '</td>' +
                 '<td class="ten">' +res.contract_no + '</td>' +
                 '<td class="ten">' + res.code + '</td>' +
-                '<td class="ten">' + res.cc + '</td>' +
-                '<td class="eight">' + res.student_name + '</td>' +
+                '<td class="five">' + actNewCc + '</td>' +
+                '<td class="six">' + actNewName + '</td>' +
                 '<td class="six">' + res.name + '</td>' +
                 '<td class="six">' + res.store_name + '</td>' +
                 '<td class="ten">' + res.mobile + '</td>' +
