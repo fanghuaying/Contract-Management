@@ -1,9 +1,9 @@
 $(function() {
     // 测试环境
-    var base_url = "http://cssup.test.shbaoyuantech.com/api";
+    // var base_url = "http://cssup.test.shbaoyuantech.com/api";
     // var base_url = "http://192.168.1.105:9000/api";
     // 正式环境
-    // var base_url = "https://cssup.shbaoyuantech.com/api";
+    var base_url = "https://cssup.shbaoyuantech.com/api";
     var sourceLi = [];
     var grade = '';
     var transferStore = {};
@@ -15,7 +15,7 @@ $(function() {
         alert('请先登录')
         window.location.href = 'login.html';
     }else{
-        进入页面获取线索和场馆信息
+        // 进入页面获取线索和场馆信息
         source();
         getStore();
     };
